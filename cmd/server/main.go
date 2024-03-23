@@ -7,8 +7,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/veron-baranige/echo-keycloak-starter/config"
-	db "github.com/veron-baranige/echo-keycloak-starter/database"
 	"github.com/veron-baranige/echo-keycloak-starter/internal/auth"
+	db "github.com/veron-baranige/echo-keycloak-starter/internal/database"
 	m "github.com/veron-baranige/echo-keycloak-starter/internal/middleware"
 	"github.com/veron-baranige/echo-keycloak-starter/internal/routes"
 )

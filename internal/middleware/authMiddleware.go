@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v4"
-	db "github.com/veron-baranige/echo-keycloak-starter/database"
 	"github.com/veron-baranige/echo-keycloak-starter/internal/auth"
+	db "github.com/veron-baranige/echo-keycloak-starter/internal/database"
 )
 
 var (
