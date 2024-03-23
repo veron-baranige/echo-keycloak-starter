@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	_ "github.com/veron-baranige/echo-keycloak-starter/api/swagger"
+	_ "github.com/veron-baranige/echo-keycloak-starter/docs/swagger"
 	"github.com/veron-baranige/echo-keycloak-starter/internal/auth"
 	"github.com/veron-baranige/echo-keycloak-starter/internal/config"
 	db "github.com/veron-baranige/echo-keycloak-starter/internal/database"
@@ -18,12 +18,8 @@ import (
 // @title Echo Keycloak Starter API
 // @version 1.0
 // @description This is a starter template for Echo with Keycloak & SQLC.
-
-// @contact.name API Support
+// @contact.name Veron Baranige
 // @contact.email veronsajendra@gmail.com
-
-// @license.name MIT
-
 // @host http://localhost:8080
 // @BasePath /api
 func main() {

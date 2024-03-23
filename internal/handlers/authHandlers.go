@@ -29,7 +29,6 @@ type (
 
 	UserLoginResponse struct {
 		AccessToken  string       `json:"accessToken"`
-		ExpiresIn    int          `json:"expiresIn"`
 		RefreshToken string       `json:"refreshToken"`
 		User         LoginUserDto `json:"user"`
 	}
@@ -41,6 +40,14 @@ type (
 	}
 )
 
+// @Summary Create new user account
+// @Accept  json
+// @Param object body UserRegistrationRequest true "User Registration Request"
+// @Success 201 
+// @Failure 400
+// @Failure 500
+// @Router /auth/register [post]
+// @Tags Auth
 func RegisterUser(c echo.Context) error {
 	var userReq UserRegistrationRequest
 	if err := json.NewDecoder(c.Request().Body).Decode(&userReq); err != nil {
@@ -79,6 +86,16 @@ func RegisterUser(c echo.Context) error {
 	return c.String(http.StatusCreated, "Created user successfully")
 }
 
+// @Summary User login
+// @Accept json
+// @Produce json 
+// @Param object body UserLoginRequest true "User Login Request"
+// @Success 200 {object} UserLoginResponse
+// @Failure 400
+// @Failure 401
+// @Failure 500
+// @Router /auth/login [post]
+// @Tags Auth
 func LoginUser(c echo.Context) error {
 	var loginReq UserLoginRequest
 	if err := json.NewDecoder(c.Request().Body).Decode(&loginReq); err != nil {
@@ -100,7 +117,6 @@ func LoginUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, UserLoginResponse{
 		AccessToken:  jwt.AccessToken,
 		RefreshToken: jwt.RefreshToken,
-		ExpiresIn:    jwt.ExpiresIn,
 		User: LoginUserDto{
 			FirstName: user.FirstName,
 			LastName: user.LastName,
