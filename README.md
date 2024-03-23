@@ -34,3 +34,8 @@
 - Migrate up: `make migrate-up`
 - Migrate down: `make migrate-down`
 - Migrate force fix: `make migrate-fix v={VERSION}`
+
+## Swagger
+- Annotate handlers with valid swagger comments
+- Docs will be auto generate on each modification
+- [Visit swagger](http://localhost:8000/swagger/index.html)
