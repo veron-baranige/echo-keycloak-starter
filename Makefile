@@ -1,4 +1,4 @@
-MIGRATION_DIR=./database/migrations
+MIGRATION_DIR=./internal/database/migrations
 DB_CONN_URL=mysql://root:root@tcp\(127.0.0.1:3306\)/business
 BINARY_NAME=gocloak
 
