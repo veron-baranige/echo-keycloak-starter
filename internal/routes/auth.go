@@ -6,7 +6,7 @@ import (
 )
 
 func SetupAuthRoutes(e *echo.Echo) {
-	auth := e.Group("/auth")
+	auth := e.Group("/api/auth")
 	auth.POST("/register", handlers.RegisterUser)
 	auth.POST("/login", handlers.LoginUser)
 }

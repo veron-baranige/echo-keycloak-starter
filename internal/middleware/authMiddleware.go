@@ -11,8 +11,8 @@ import (
 
 var (
 	publicRotes = map[string]bool{
-		"/auth/register":      true,
-		"/auth/login":         true,
+		"/api/auth/register":      true,
+		"/api/auth/login":         true,
 	}
 )
 
