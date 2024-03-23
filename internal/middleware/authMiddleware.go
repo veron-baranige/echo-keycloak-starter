@@ -11,14 +11,17 @@ import (
 
 var (
 	publicRotes = map[string]bool{
-		"/public":        true,
-		"/auth/register": true,
-		"/auth/login":    true,
+		"/auth/register":      true,
+		"/auth/login":         true,
 	}
 )
 
 func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
+		if strings.HasPrefix(c.Request().URL.String(), "/swagger") {
+			return next(c)
+		}
+
 		_, ok := publicRotes[c.Request().URL.String()]
 		if ok {
 			return next(c)
