@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/Nerzal/gocloak/v13"
-	"github.com/veron-baranige/echo-keycloak-starter/config"
+	"github.com/veron-baranige/echo-keycloak-starter/internal/config"
 )
 
 func RegisterUser(emailAddress string, password string, role string) (uid string, err error) {

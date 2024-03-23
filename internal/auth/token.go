@@ -8,7 +8,7 @@ import (
 
 	"github.com/Nerzal/gocloak/v13"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/veron-baranige/echo-keycloak-starter/config"
+	"github.com/veron-baranige/echo-keycloak-starter/internal/config"
 )
 
 var (

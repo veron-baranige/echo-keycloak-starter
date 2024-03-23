@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/veron-baranige/echo-keycloak-starter/config"
+	"github.com/veron-baranige/echo-keycloak-starter/internal/config"
 )
 
 var (
