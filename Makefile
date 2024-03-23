@@ -24,3 +24,6 @@ build:
 	@if [ -d bin ]; then rm -rf bin; fi
 	go clean
 	CGO_ENABLED=0 go build -o bin/${BINARY_NAME} ./cmd/server
+
+swagger:
+	swag init -g cmd/server/main.go --output api/swagger

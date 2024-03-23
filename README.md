@@ -4,6 +4,7 @@
 - Make: `sudo apt install make`
 - SQLC: `sudo snap install sqlc`
 - Air: `go install github.com/cosmtrek/air@latest`
+- Swagger: `go get -u github.com/swaggo/swag`
 - Golang Migrate:  
   ```
   curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | sudo bash
@@ -17,6 +18,7 @@
 - Echo: `go get github.com/labstack/echo/v4`
 - UUID: `go get github.com/google/uuid`
 - Testify: `go get github.com/stretchr/testify`
+- EchoSwagger: `go get -u github.com/swaggo/echo-swagger`
 
 ## Usage
 ### Server

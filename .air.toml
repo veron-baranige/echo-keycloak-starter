@@ -3,7 +3,7 @@ tmp_dir = "tmp"
 
 [build]
   bin = "./tmp/main"
-  cmd = "sqlc generate && go build -o ./tmp/main ./cmd/server"
+  cmd = "sqlc generate && make swagger && go build -o ./tmp/main ./cmd/server"
   delay = 1000
   exclude_dir = ["tmp", "deployments", "test", "docs", "scripts"]
   exclude_file = []
