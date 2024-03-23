@@ -1,0 +1,111 @@
+package handlers
+
+import (
+	"context"
+	"database/sql"
+	"encoding/json"
+	"errors"
+	"log"
+	"net/http"
+
+	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
+	db "github.com/veron-baranige/echo-keycloak-starter/database"
+	"github.com/veron-baranige/echo-keycloak-starter/internal/auth"
+)
+
+type (
+	UserRegistrationRequest struct {
+		FirstName    string `json:"firstName"`
+		LastName     string `json:"lasttName"`
+		EmailAddress string `json:"emailAddress"`
+		Password     string `json:"password"`
+	}
+
+	UserLoginRequest struct {
+		EmailAddress string `json:"emailAddress"`
+		Password     string `json:"password"`
+	}
+
+	UserLoginResponse struct {
+		AccessToken  string       `json:"accessToken"`
+		ExpiresIn    int          `json:"expiresIn"`
+		RefreshToken string       `json:"refreshToken"`
+		User         LoginUserDto `json:"user"`
+	}
+	LoginUserDto struct {
+		FirstName    string       `json:"firstName"`
+		LastName     string       `json:"lastName"`
+		EmailAddress string       `json:"emailAddress"`
+		Role         db.UsersRole `json:"role"`
+	}
+)
+
+func RegisterUser(c echo.Context) error {
+	var userReq UserRegistrationRequest
+	if err := json.NewDecoder(c.Request().Body).Decode(&userReq); err != nil {
+		log.Println(err)
+		return echo.ErrBadRequest
+	}
+
+	_, err := db.Client.GetUserByEmail(context.Background(), userReq.EmailAddress)
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+		log.Println(err)
+		return echo.ErrBadRequest
+	}
+
+	keycloakUid, err := auth.RegisterUser(userReq.EmailAddress, userReq.Password, string(db.UsersRoleUSER))
+	if err != nil {
+		log.Println("Failed to create keycloak user: ", err)
+		return echo.ErrServiceUnavailable
+	}
+
+	_, err = db.Client.CreateUser(context.Background(), db.CreateUserParams{
+		ID:           uuid.NewString(),
+		FirstName:    userReq.FirstName,
+		LastName:     userReq.LastName,
+		EmailAddress: userReq.EmailAddress,
+		KeycloakUid:  keycloakUid,
+		Role:         db.UsersRoleUSER,
+	})
+	if err != nil {
+		log.Println(err)
+		if err := auth.RemoveKeycloakUser(keycloakUid); err != nil {
+			log.Println("Failed to remove keycloak user: ", err)
+		}
+		return echo.ErrInternalServerError
+	}
+
+	return c.String(http.StatusCreated, "Created user successfully")
+}
+
+func LoginUser(c echo.Context) error {
+	var loginReq UserLoginRequest
+	if err := json.NewDecoder(c.Request().Body).Decode(&loginReq); err != nil {
+		log.Println(err)
+		return echo.ErrBadRequest
+	}
+
+	jwt, err := auth.LoginUser(loginReq.EmailAddress, loginReq.Password)
+	if err != nil {
+		log.Println(err)
+		return echo.ErrBadRequest
+	}
+
+	user, err := db.Client.GetUserByEmail(context.Background(), loginReq.EmailAddress)
+	if err != nil {
+		return echo.ErrUnauthorized
+	}
+
+	return c.JSON(http.StatusOK, UserLoginResponse{
+		AccessToken:  jwt.AccessToken,
+		RefreshToken: jwt.RefreshToken,
+		ExpiresIn:    jwt.ExpiresIn,
+		User: LoginUserDto{
+			FirstName: user.FirstName,
+			LastName: user.LastName,
+			EmailAddress: user.EmailAddress,
+			Role: user.Role,
+		},
+	})
+}

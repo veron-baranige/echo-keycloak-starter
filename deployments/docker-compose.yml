@@ -1,0 +1,46 @@
+version: '3.9'
+
+volumes:
+  mysql_data:
+    driver: local
+
+services:
+  auth-db:
+    container_name: auth-db
+    image: mysql:8
+    environment:
+      - MYSQL_USER=keycloak-user
+      - MYSQL_PASSWORD=keycloakAuth123
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=auth
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  business-db:
+    container_name: business-db
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER=app-user
+      - MYSQL_PASSWORD=rootApp123
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=business
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:24.0.0
+    command: ["start-dev"]
+    ports:
+      - 8080:8080
+    depends_on:
+      - auth-db
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=mysql
+      - KC_DB_URL_HOST=auth-db
+      - KC_DB_URL_PORT=3306
+      - KC_DB_URL_DATABASE=auth
+      - KC_DB_USERNAME=keycloak-user
+      - KC_DB_PASSWORD=keycloakAuth123
