@@ -20,7 +20,7 @@ func getClientToken() *gocloak.JWT {
 		_, claims, err := client.DecodeAccessToken(
 			context.Background(),
 			clientToken.AccessToken,
-			config.Env.KeycloakRealm,
+			config.Get(config.KeycloakRealm),
 		)
 		if err == nil {
 			expTime, err := claims.GetExpirationTime()
@@ -32,9 +32,9 @@ func getClientToken() *gocloak.JWT {
 
 	token, err := client.LoginClient(
 		context.Background(),
-		config.Env.KeycloakClientId,
-		config.Env.KeycloakClientSecret,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakClientId),
+		config.Get(config.KeycloakClientSecret),
+		config.Get(config.KeycloakRealm),
 	)
 	if err != nil {
 		log.Panicln("Failed to get keycloak client token:", err)
@@ -47,9 +47,9 @@ func ValidateToken(accessToken string) error {
 	res, err := client.RetrospectToken(
 		context.Background(),
 		accessToken,
-		config.Env.KeycloakClientId,
-		config.Env.KeycloakClientSecret,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakClientId),
+		config.Get(config.KeycloakClientSecret),
+		config.Get(config.KeycloakRealm),
 	)
 	if err != nil {
 		return err
@@ -64,9 +64,9 @@ func RefreshToken(refreshToken string) (*gocloak.JWT, error) {
 	return client.RefreshToken(
 		context.Background(),
 		refreshToken,
-		config.Env.KeycloakClientId,
-		config.Env.KeycloakClientSecret,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakClientId),
+		config.Get(config.KeycloakClientSecret),
+		config.Get(config.KeycloakRealm),
 	)
 }
 
@@ -74,7 +74,7 @@ func DecodeToken(ctx context.Context,accessToken string) (*jwt.MapClaims, error)
 	_, claims, err := client.DecodeAccessToken(
 		ctx,
 		accessToken,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakRealm),
 	)
 	if err != nil {
 		return nil, err

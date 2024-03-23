@@ -28,7 +28,7 @@ func main() {
 	setupMiddleware(e)
 	setupRoutes(e)
 	
-	e.Logger.Fatal(e.Start(":" + config.Env.ServerPort))
+	e.Logger.Fatal(e.Start(":" + config.Get(config.ServerPort)))
 }
 
 func setupMiddleware(e *echo.Echo) {

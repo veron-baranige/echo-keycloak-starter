@@ -11,7 +11,7 @@ func RegisterUser(emailAddress string, password string, role string) (uid string
 	return client.CreateUser(
 		context.Background(),
 		getClientToken().AccessToken,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakRealm),
 		gocloak.User{
 			Username:      gocloak.StringP(emailAddress),
 			Email:         gocloak.StringP(emailAddress),
@@ -32,9 +32,9 @@ func RegisterUser(emailAddress string, password string, role string) (uid string
 func LoginUser(emailAddress string, password string) (*gocloak.JWT, error) {
 	return client.Login(
 		context.Background(),
-		config.Env.KeycloakClientId,
-		config.Env.KeycloakClientSecret,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakClientId),
+		config.Get(config.KeycloakClientSecret),
+		config.Get(config.KeycloakRealm),
 		emailAddress,
 		password,
 	)
@@ -44,7 +44,7 @@ func LogoutUser(uid string) error {
 	return client.LogoutAllSessions(
 		context.Background(),
 		getClientToken().AccessToken,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakRealm),
 		uid,
 	)
 }
@@ -53,7 +53,7 @@ func RemoveKeycloakUser(uid string) error {
 	return client.DeleteUser(
 		context.Background(),
 		getClientToken().AccessToken,
-        config.Env.KeycloakRealm,
+        config.Get(config.KeycloakRealm),
         uid,
 	)
 }

@@ -14,14 +14,14 @@ var (
 
 func SetupClient() error {
 	connStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
-		config.Env.DbUser,
-		config.Env.DbPassword,
-		config.Env.DbHost,
-		config.Env.DbPort,
-		config.Env.DbName,
+		config.Get(config.DbUser),
+		config.Get(config.DbPassword),
+		config.Get(config.DbHost),
+		config.Get(config.DbPort),
+		config.Get(config.DbName),
 	)
 
-	dbConn, err := sql.Open(config.Env.DbDriver, connStr)
+	dbConn, err := sql.Open(config.Get(config.DbDriver), connStr)
 	if err != nil {
 		return err
 	}

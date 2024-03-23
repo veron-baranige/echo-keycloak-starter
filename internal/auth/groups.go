@@ -11,7 +11,7 @@ func GetUserGroups(params gocloak.GetGroupsParams) ([]*gocloak.Group, error) {
 	return client.GetGroups(
 		context.Background(),
 		getClientToken().AccessToken,
-		config.Env.KeycloakRealm,
+		config.Get(config.KeycloakRealm),
 		params,
 	)
 }

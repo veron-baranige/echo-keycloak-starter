@@ -10,6 +10,6 @@ var (
 )
 
 func SetupKeycloakClient() {
-	client = gocloak.NewClient(config.Env.KeycloakBaseURL)
+	client = gocloak.NewClient(config.Get(config.KeycloakBaseURL))
 	getClientToken()
 }
