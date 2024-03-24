@@ -17,7 +17,7 @@ import (
 type (
 	UserRegistrationRequest struct {
 		FirstName    string `json:"firstName"`
-		LastName     string `json:"lasttName"`
+		LastName     string `json:"lastName"`
 		EmailAddress string `json:"emailAddress"`
 		Password     string `json:"password"`
 	}
