@@ -19,6 +19,7 @@
 - UUID: `go get github.com/google/uuid`
 - Testify: `go get github.com/stretchr/testify`
 - EchoSwagger: `go get -u github.com/swaggo/echo-swagger`
+- Slog: `go get github.com/gookit/slog`
 
 ## Usage
 ### Server
