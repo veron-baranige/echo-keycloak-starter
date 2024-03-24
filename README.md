@@ -20,7 +20,8 @@
 - Testify: `go get github.com/stretchr/testify`
 - EchoSwagger: `go get -u github.com/swaggo/echo-swagger`
 - Slog: `go get github.com/gookit/slog`
-
+- Tint: `go get github.com/lmittmann/tint`
+  
 ## Usage
 ### Server
 - Setup dev environment with databases and keycloak
