@@ -41,7 +41,7 @@ definitions:
         type: string
       firstName:
         type: string
-      lasttName:
+      lastName:
         type: string
       password:
         type: string

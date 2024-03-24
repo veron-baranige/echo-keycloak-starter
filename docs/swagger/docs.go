@@ -157,7 +157,7 @@ const docTemplate = `{
                 "firstName": {
                     "type": "string"
                 },
-                "lasttName": {
+                "lastName": {
                     "type": "string"
                 },
                 "password": {
